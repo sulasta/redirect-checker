@@ -107,15 +107,19 @@ $urls = array_slice($urls, 0, 100);
                 $el.html('<em>Проверка...</em>');
                 $.post('checker.php', {"url": url}, function (data) {
                     $el.addClass('checked');
-                    $el.html('');
-                    if (data.url) {
-                        $el.append('<a href="' + data.url + '" target="_blank" rel="noreferrer">' + data.url + '</em>');
-                    }
                     if (data.error) {
-                        if (data.url) {
-                            $el.append('<br>');
+                        $el.html('<em class="text-danger">' + data.message + '</em>');
+                    } else {
+                        $el.html('');
+                        if (data.redirects && data.redirects.length > 0) {
+                            for (var i = 0; i < data.redirects.length; i++) {
+                                $el.append('<small class="text-muted">' + data.redirects[i][0] + ' &rarr; ' + data.redirects[i][1] + '</small><br>');
+                            }
                         }
-                        $el.append('<em class="text-danger">' + data.message + '</em>');
+                        if (data.url) {
+                            var code_class = data.code && data.code === 200 ? '' : 'text-danger';
+                            $el.append('<span class="' + code_class + '">' + data.code + '</span>: ' + '<a href="' + data.url + '" target="_blank" rel="noreferrer">' + data.url + '</em>');
+                        }
                     }
                     checkUrl();
                 }).fail(function () {
