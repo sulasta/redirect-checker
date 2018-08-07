@@ -9,7 +9,7 @@
 <body>
 
 <div class="container-fluid" style="margin-top: 10px;">
-    <h1>Redirect Checker</h1>
+    <h2>Redirect Checker</h2>
 
     <form method="post" action="process.php">
         <div class="form-group">

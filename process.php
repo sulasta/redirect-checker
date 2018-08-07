@@ -48,7 +48,7 @@ $urls = array_slice($urls, 0, 100);
 <body>
 
 <div class="container-fluid" style="margin-top: 10px;">
-    <h1>Redirect Checker</h1>
+    <h2>Redirect Checker</h2>
 
     <?php
     if (empty($urls)) {
@@ -60,15 +60,18 @@ $urls = array_slice($urls, 0, 100);
         <table class="table table-sm">
             <thead>
             <tr>
-                <th style="width: 50%">URL</th>
-                <th style="width: 50%">Результат</th>
+                <th>#</th>
+                <th style="width: 49.5%">URL</th>
+                <th style="width: 49.5%">Результат</th>
             </tr>
             </thead>
             <tbody>
             <?php
+            $count = 1;
             foreach ($urls as $url) {
                 ?>
                 <tr>
+                    <td><?= $count++ ?></td>
                     <td><a href="<?= esc_html($url) ?>" target="_blank" rel="noreferrer"><?= esc_html($url) ?></a></td>
                     <td><div class="redirect-status" data-url="<?= esc_html($url) ?>"><em class="text-muted">Ожидание</em></div></td>
                 </tr>
