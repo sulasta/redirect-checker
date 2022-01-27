@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,20 +22,20 @@
 
     <form method="post" action="index.php?process">
         <div class="mb-3">
-            <label for="url_prefix" class="form-label">URL-префикс</label>
+            <label for="url_prefix" class="form-label">Base URL</label>
             <input type="text" class="form-control" name="url_prefix" id="url_prefix" placeholder="http://example.com">
-            <div class="form-text">Указать, если ссылки в списке относительные</div>
+            <div class="form-text">Fill if URL list contains relative paths</div>
         </div>
         <div class="mb-3">
-            <label for="url_list" class="form-label">Список URL</label>
+            <label for="url_list" class="form-label">URL list</label>
             <textarea class="form-control" name="url_list" id="url_list" rows="10" placeholder="/news/example.html
 /news/example2.html
-или
+or
 http://example.com/news/example.html
 http://example.com/news/example2.html"></textarea>
-            <div class="form-text">По одному URL на строку<br>Будут обработаны только первые 100 строк</div>
+            <div class="form-text">One URL per line<br>Only first 100 URLs will be checked</div>
         </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
+        <button type="submit" class="btn btn-primary">Start</button>
     </form>
 
 <?php else:
@@ -79,7 +79,7 @@ http://example.com/news/example2.html"></textarea>
 
     if (empty($urls)): ?>
 
-        <p>Список URL пуст.</p>
+        <p>Empty URL list.</p>
 
     <?php else: ?>
 
@@ -88,7 +88,7 @@ http://example.com/news/example2.html"></textarea>
             <tr>
                 <th>#</th>
                 <th style="width: 49.5%">URL</th>
-                <th style="width: 49.5%">Результат</th>
+                <th style="width: 49.5%">Result</th>
             </tr>
             </thead>
             <tbody>
@@ -99,7 +99,7 @@ http://example.com/news/example2.html"></textarea>
                 <tr>
                     <td><?= $count++ ?></td>
                     <td><a href="<?= esc_html($url) ?>" target="_blank" rel="noreferrer"><?= esc_html($url) ?></a></td>
-                    <td><div class="redirect-status" data-url="<?= esc_html($url) ?>"><em class="text-muted">Ожидание</em></div></td>
+                    <td><div class="redirect-status" data-url="<?= esc_html($url) ?>"><em class="text-muted">Waiting</em></div></td>
                 </tr>
 
                 <?php
@@ -110,7 +110,7 @@ http://example.com/news/example2.html"></textarea>
 
     <?php endif; ?>
 
-    <p><a href="index.php" class="btn btn-secondary back-link">Назад</a></p>
+    <p><a href="index.php" class="btn btn-secondary back-link">Back</a></p>
 
 <?php endif; ?>
 
@@ -134,7 +134,7 @@ http://example.com/news/example2.html"></textarea>
             }
             var url = $el.attr('data-url');
             if (url) {
-                $el.html('<em>Проверка...</em>');
+                $el.html('<em>Checking...</em>');
                 $.post('checker.php', {"url": url}, function (data) {
                     $el.addClass('checked');
                     if (data.error) {
@@ -153,11 +153,11 @@ http://example.com/news/example2.html"></textarea>
                     }
                     checkUrl();
                 }).fail(function () {
-                    $el.addClass('checked').html('<em class="text-danger">Ошибка запроса</em>');
+                    $el.addClass('checked').html('<em class="text-danger">Request error</em>');
                     checkUrl();
                 });
             } else {
-                $el.addClass('checked').html('<em class="text-danger">URL не определен</em>');
+                $el.addClass('checked').html('<em class="text-danger">Undefined URL</em>');
             }
         }
     });

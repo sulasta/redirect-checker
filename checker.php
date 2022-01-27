@@ -60,7 +60,7 @@ if (!empty($url)) {
 $url = isset($_POST['url']) ? trim($_POST['url']) : '';
 
 if (empty($url)) {
-    show_result(['error' => true, 'message' => 'URL не определен']);
+    show_result(['error' => true, 'message' => 'Empty URL']);
 }
 
 $redirects = [];
@@ -77,7 +77,7 @@ while ($try_count < 10) {
 
     // got some wrong
     if (!isset($result['info']['http_code'])) {
-        show_result(['error' => true, 'message' => 'Неизвестный ответ сервера']);
+        show_result(['error' => true, 'message' => 'Unknown server response']);
     }
 
     // got redirect
@@ -98,7 +98,7 @@ while ($try_count < 10) {
 }
 
 if (count($redirects) > 0) {
-    show_result(['error' => true, 'message' => 'Слишком много перенаправлений']);
+    show_result(['error' => true, 'message' => 'Too many redirects']);
 }
 
-show_result(['error' => true, 'message' => 'Неизвестная ошибка']);
+show_result(['error' => true, 'message' => 'Unknown error']);
