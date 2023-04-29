@@ -1,51 +1,5 @@
 <?php
 
-function show_result($data)
-{
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($data);
-    exit;
-}
-
-function get_web_page($url)
-{
-    $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'RedirectChecker/1.0';
-    $options = [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER => false,
-        CURLOPT_FOLLOWLOCATION => false,
-        CURLOPT_USERAGENT => $useragent,
-        CURLOPT_AUTOREFERER => true,
-        CURLOPT_CONNECTTIMEOUT => 60,
-        CURLOPT_TIMEOUT => 60,
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_FRESH_CONNECT => true,
-        CURLOPT_SSL_VERIFYPEER => true,
-        CURLOPT_SSL_VERIFYHOST => 2,
-        CURLOPT_CAINFO => __DIR__ . '/cacert.pem',
-    ];
-    $ch = curl_init($url);
-    curl_setopt_array($ch, $options);
-    $content = curl_exec($ch);
-
-    $err = curl_errno($ch);
-    $err_msg = curl_error($ch);
-
-    $info = curl_getinfo($ch);
-    curl_close($ch);
-
-    if ($err) {
-        return [
-            'error' => $err_msg,
-        ];
-    }
-
-    return [
-        'content' => $content,
-        'info' => $info,
-    ];
-}
-
 $url = isset($_GET['url']) ? trim($_GET['url']) : '';
 if (!empty($url)) {
     $result = get_web_page($url);
@@ -102,3 +56,49 @@ if (count($redirects) > 0) {
 }
 
 show_result(['error' => true, 'message' => 'Unknown error']);
+
+function show_result($data)
+{
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode($data);
+    exit;
+}
+
+function get_web_page($url)
+{
+    $useragent = $_SERVER['HTTP_USER_AGENT'] ?? 'RedirectChecker/1.0';
+    $options = [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_USERAGENT => $useragent,
+        CURLOPT_AUTOREFERER => true,
+        CURLOPT_CONNECTTIMEOUT => 60,
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_FRESH_CONNECT => true,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_CAINFO => __DIR__ . '/cacert.pem',
+    ];
+    $ch = curl_init($url);
+    curl_setopt_array($ch, $options);
+    $content = curl_exec($ch);
+
+    $err = curl_errno($ch);
+    $err_msg = curl_error($ch);
+
+    $info = curl_getinfo($ch);
+    curl_close($ch);
+
+    if ($err) {
+        return [
+            'error' => $err_msg,
+        ];
+    }
+
+    return [
+        'content' => $content,
+        'info' => $info,
+    ];
+}
