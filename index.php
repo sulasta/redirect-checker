@@ -16,7 +16,7 @@
 <body>
 
 <div class="container-fluid my-2">
-    <h2>Redirect Checker</h2>
+    <h1 class="h2">Redirect Checker</h1>
 
     <form method="post" action="process.php">
         <div class="mb-3">
