@@ -1,3 +1,3 @@
 # Redirect Checker
 
-[Demo](https://yashkin.by/redirect-checker/)
+[Demo](https://tmpfiles.xyz/redirect-checker/)
